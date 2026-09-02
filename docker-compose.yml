@@ -1,0 +1,10 @@
+services:
+  suunto2nextcloud:
+    build: .
+    container_name: suunto2nextcloud
+    restart: unless-stopped
+    volumes:
+      - ./config:/config      # config/config.yaml
+      - ./state:/state        # tokens.json + synced.json (persist!)
+    # one-off auth (needs a redirect URI you can reach; simplest is the paste flow):
+    #   docker compose run --rm suunto2nextcloud auth --no-browser

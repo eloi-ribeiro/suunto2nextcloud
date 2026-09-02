@@ -1,0 +1,27 @@
+# Copy to config.yaml (or mount at /config/config.yaml in Docker).
+# Every value can also be given as an environment variable, e.g. S2N_SUUNTO_CLIENT_ID.
+
+suunto:
+  # From https://apizone.suunto.com → your profile → OAuth application
+  client_id: ""
+  client_secret: ""
+  subscription_key: ""          # Ocp-Apim-Subscription-Key (Development or Production API)
+  # Must match one of the redirect URIs registered for the OAuth application.
+  # The default runs a small local listener during `auth`; a manual paste flow is also supported.
+  redirect_uri: "http://localhost:8765/callback"
+
+nextcloud:
+  url: "https://cloud.eloiribeiro.eu"
+  user: ""
+  app_password: ""              # Settings → Security → Devices & sessions → create app password
+  folder: "Suunto"              # target folder inside your Files (created if missing)
+  upload_fit: true              # keep original .fit next to the .gpx
+  upload_json: true             # per-workout summary json (used by the index)
+
+sync:
+  # ISO date; only workouts starting on/after this are pulled on the very first run.
+  start_date: "2024-01-01"
+  # Run continuously every N minutes (0 = run once and exit; use cron instead).
+  interval_minutes: 30
+  # Where tokens + list of already-synced workouts are kept.
+  state_dir: "./state"
