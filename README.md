@@ -1,5 +1,8 @@
 # suunto2nextcloud
 
+Project page: https://eloi-ribeiro.github.io/suunto2nextcloud/
+
+
 Pulls your Suunto (Race 2 or any Suunto-app-synced watch) workouts from the **Suunto Cloud API**
 and stores them in a folder of your Nextcloud as **GPX + FIT + JSON**, plus an auto-generated
 `Activities.md` index. On Nextcloud the tracks are shown with the **GpxPod** app (maps, elevation /

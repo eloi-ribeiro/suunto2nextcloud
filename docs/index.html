@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>suunto2nextcloud — your Suunto workouts, in your own cloud</title>
+<meta name="description" content="Open-source, self-hosted sync of Suunto watch workouts into Nextcloud as GPX and FIT files, visualised with GpxPod. Your training data, on storage you control.">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --ink: #22252a;
+    --muted: #5d6470;
+    --line: #e3e1db;
+    --accent: #b3591f;
+    --accent-ink: #8f4517;
+    --code-bg: #2b2e34;
+    --code-ink: #e8e6e1;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17191d;
+      --surface: #1f2227;
+      --ink: #e8e6e1;
+      --muted: #a3a8b0;
+      --line: #33373e;
+      --accent: #e0834a;
+      --accent-ink: #eb9a68;
+      --code-bg: #111317;
+      --code-ink: #d8d6d1;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent-ink); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 72px 0 48px; }
+  .kicker {
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent-ink); font-weight: 600; margin: 0 0 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -.015em; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 620px; margin: 0 0 28px; }
+  .cta a.btn {
+    display: inline-block; margin: 0 10px 10px 0; padding: 10px 20px;
+    border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+
+  .flow {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 26px 22px; margin: 8px 0 0; overflow-x: auto;
+  }
+  .flow-row { display: flex; align-items: center; gap: 14px; min-width: 640px; }
+  .node { flex: 1; text-align: center; padding: 14px 10px; border: 1px solid var(--line); border-radius: 10px; }
+  .node b { display: block; font-size: 15px; }
+  .node span { font-size: 13px; color: var(--muted); }
+  .arrow { color: var(--muted); font-size: 13px; text-align: center; white-space: nowrap; }
+  .arrow::before { content: "⟶"; display: block; font-size: 18px; color: var(--accent); }
+
+  section { padding: 40px 0 8px; }
+  h2 { font-size: 24px; margin: 0 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .card h3 { margin: 0 0 8px; font-size: 16px; }
+  .card p { margin: 0; font-size: 14.5px; color: var(--muted); }
+
+  pre {
+    background: var(--code-bg); color: var(--code-ink); border-radius: 10px;
+    padding: 18px 20px; font: 13.5px/1.7 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    overflow-x: auto;
+  }
+  pre .c { color: #8a919c; }
+  code.inline {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 5px;
+    padding: 1px 6px; font-size: .88em; font-family: ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  ol.steps { padding-left: 0; margin: 0; list-style: none; counter-reset: step; }
+  ol.steps li {
+    counter-increment: step; position: relative; padding: 0 0 22px 52px;
+  }
+  ol.steps li::before {
+    content: counter(step); position: absolute; left: 0; top: 0;
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps b { display: block; margin-bottom: 2px; }
+  ol.steps p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  footer {
+    margin-top: 56px; padding: 28px 0 40px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 13.5px;
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <p class="kicker">Open source · Self-hosted · Non-commercial</p>
+  <h1>Your Suunto workouts,<br>in your own cloud.</h1>
+  <p class="lede">suunto2nextcloud syncs activities from your Suunto watch into your personal
+  Nextcloud as open <strong>GPX</strong> and <strong>FIT</strong> files — maps, heart-rate and
+  elevation charts included, on storage you control.</p>
+  <p class="cta">
+    <a class="btn btn-primary" href="https://github.com/eloi-ribeiro/suunto2nextcloud">View on GitHub</a>
+    <a class="btn btn-ghost" href="https://github.com/eloi-ribeiro/suunto2nextcloud#readme">Read the docs</a>
+  </p>
+</header>
+
+<div class="wrap">
+  <div class="flow" role="img" aria-label="Data flow: Suunto watch to Suunto app and cloud, fetched over the Suunto Cloud API by suunto2nextcloud, uploaded over WebDAV to Nextcloud, viewed with GpxPod">
+    <div class="flow-row">
+      <div class="node"><b>Suunto watch</b><span>records the workout</span></div>
+      <div class="arrow">Suunto app</div>
+      <div class="node"><b>Suunto Cloud</b><span>official Cloud&nbsp;API</span></div>
+      <div class="arrow">OAuth2 · FIT export</div>
+      <div class="node"><b>suunto2nextcloud</b><span>converts FIT&nbsp;→&nbsp;GPX</span></div>
+      <div class="arrow">WebDAV</div>
+      <div class="node"><b>Nextcloud</b><span>GpxPod maps &amp; charts</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="wrap">
+  <h2>Why</h2>
+  <p class="sub">Training data is personal data. It should outlive any app, subscription or platform.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>Own your data</h3>
+      <p>Every activity is stored as an untouched FIT file plus a standard GPX track in your
+      Nextcloud folder — readable by any sports tool, forever, no export lock-in.</p>
+    </div>
+    <div class="card">
+      <h3>Hands-off sync</h3>
+      <p>A small service polls the official Suunto Cloud API and picks up new workouts shortly
+      after your watch syncs. Run it once, forget it.</p>
+    </div>
+    <div class="card">
+      <h3>Maps &amp; charts in Nextcloud</h3>
+      <p>Tracks render in the GpxPod app: route on a map, elevation profile, heart rate, pace and
+      speed — plus a monthly <em>Activities.md</em> summary with totals per sport.</p>
+    </div>
+    <div class="card">
+      <h3>Private by design</h3>
+      <p>You authorise access to your own Suunto account via OAuth2. Data flows from Suunto
+      straight to your server — no third party, no analytics, no resale.</p>
+    </div>
+    <div class="card">
+      <h3>Rich track detail</h3>
+      <p>GPX files carry heart rate, cadence, temperature, speed and power as standard
+      TrackPoint extensions. Indoor workouts keep their FIT and summary too.</p>
+    </div>
+    <div class="card">
+      <h3>Works on managed hosting</h3>
+      <p>Nothing is installed server-side on Nextcloud: files arrive over WebDAV and viewing uses
+      App Store apps, so it works even on managed instances like Hetzner Storage Share.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>How it works</h2>
+  <ol class="steps" style="margin-top:22px">
+    <li><b>Authorise once</b>
+      <p>Log in with your Suunto account through the standard OAuth2 flow; tokens are stored
+      locally and refreshed automatically.</p></li>
+    <li><b>Sync continuously</b>
+      <p>The service lists new workouts, downloads each FIT file once, converts it to GPX and
+      uploads <code class="inline">gpx</code> + <code class="inline">fit</code> +
+      <code class="inline">json</code> per activity, organised by year.</p></li>
+    <li><b>Browse in Nextcloud</b>
+      <p>Open the folder in GpxPod for maps and charts, or the generated
+      <code class="inline">Activities.md</code> for a month-by-month log with distance, time,
+      pace, ascent and heart rate.</p></li>
+  </ol>
+</section>
+
+<section class="wrap">
+  <h2>Quick start</h2>
+  <p class="sub">Python 3.9+ or Docker. Full details in the
+  <a href="https://github.com/eloi-ribeiro/suunto2nextcloud#readme">README</a>.</p>
+<pre><code>git clone https://github.com/eloi-ribeiro/suunto2nextcloud
+cd suunto2nextcloud
+cp config.example.yaml config.yaml   <span class="c"># Suunto API keys + Nextcloud app password</span>
+pip install -r requirements.txt
+
+python __main__.py test-nextcloud    <span class="c"># verify credentials, create the folder</span>
+python __main__.py auth              <span class="c"># one-off Suunto OAuth login</span>
+python __main__.py sync              <span class="c"># pull workouts; run via cron/Docker for auto-sync</span>
+</code></pre>
+  <p style="color:var(--muted);font-size:14.5px">No Suunto API access yet? <code class="inline">import-fit</code>
+  ingests FIT files exported from the Suunto app through the same pipeline. Access to the Suunto
+  Cloud API is granted by Suunto through their partner programme at
+  <a href="https://apizone.suunto.com">apizone.suunto.com</a>.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>suunto2nextcloud is a free, open-source community project by
+    <a href="https://eloiribeiro.eu">Eloi Ribeiro</a>. It is not affiliated with, endorsed by or
+    sponsored by Suunto Oy or Nextcloud GmbH; Suunto and Nextcloud are trademarks of their
+    respective owners. Workout data is accessed only with the owner's explicit OAuth consent via
+    the official Suunto Cloud API.</p>
+    <p><a href="https://github.com/eloi-ribeiro/suunto2nextcloud">GitHub</a> ·
+    <a href="https://github.com/eloi-ribeiro/suunto2nextcloud/issues">Issues</a> ·
+    <a href="https://apizone.suunto.com">Suunto Cloud API</a> ·
+    <a href="https://apps.nextcloud.com/apps/gpxpod">GpxPod</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
