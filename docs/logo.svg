@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="suunto2nextcloud logo: a workout track climbing into a cloud">
+  <defs>
+    <clipPath id="badge"><rect x="0" y="0" width="512" height="512" rx="104"/></clipPath>
+  </defs>
+  <g clip-path="url(#badge)">
+    <rect width="512" height="512" fill="#1f2227"/>
+    <!-- route: starts bottom-left, climbs like a trail profile, vanishes into the cloud -->
+    <path d="M76 436 L160 340 L210 378 L288 274 L330 308 L356 254"
+          fill="none" stroke="#e0834a" stroke-width="30"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- start marker -->
+    <circle cx="76" cy="436" r="26" fill="#e0834a"/>
+    <circle cx="76" cy="436" r="11" fill="#1f2227"/>
+    <!-- cloud (drawn over the route end) -->
+    <g fill="#e8e6e1">
+      <circle cx="270" cy="208" r="54"/>
+      <circle cx="334" cy="174" r="66"/>
+      <circle cx="396" cy="214" r="48"/>
+      <rect x="244" y="208" width="200" height="56" rx="28"/>
+    </g>
+  </g>
+</svg>

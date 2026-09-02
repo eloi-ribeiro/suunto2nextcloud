@@ -1,3 +1,5 @@
+<img src="docs/logo.svg" alt="suunto2nextcloud logo" width="96" align="right">
+
 # suunto2nextcloud
 
 Project page: https://eloi-ribeiro.github.io/suunto2nextcloud/
